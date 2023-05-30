@@ -1,26 +1,22 @@
+import { Component, IComponent } from "./components/Component";
+import NavBar from "./components/NavBar";
+import { $ } from "./utils/selectQueries";
 
 
 
-class App {
-    #target: HTMLElement
+class App extends Component {
 
-    constructor(selector: HTMLSelectElement){
-        this.#target = selector;
-        
-        this.bindMethod()
-        this.render()
-        
-    }
 
-    bindMethod(){
-        
-        
+    constructor({target, state}:IComponent){
+        super({target, state})
+
+        this.control()
         
     }
-
-    render(){
-        this.#target.innerHTML = this.template()
+    control() {
+        new NavBar({target: $('header'), state: {}})
     }
+
 
     template() {
         return `
