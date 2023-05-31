@@ -1,5 +1,6 @@
 import { Component, IComponent } from "./components/Component";
 import NavBar from "./components/NavBar";
+import ShowMovies from "./components/ShowMovies";
 import { $ } from "./utils/selectQueries";
 
 
@@ -15,6 +16,7 @@ class App extends Component {
     }
     control() {
         new NavBar({target: $('header'), state: {}})
+        new ShowMovies({target: $('main'), state: {}})
     }
 
 
