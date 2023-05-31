@@ -5,12 +5,12 @@ export interface IComponent {
     state: Object
 }
 export class Component {
-    #target: HTMLElement
+    target: HTMLElement
     #state: Object
     constructor({target , state}:IComponent){
-        this.#target = target
+        this.target = target
         this.#state = state
-
+        
         this.render()
         // const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
         // this.bindAllMethods(methods)
@@ -25,7 +25,7 @@ export class Component {
     // }
 
     render():void{
-        this.#target.innerHTML = this.template()
+        this.target.innerHTML = this.template()
     }
 
     template():string{
