@@ -1,7 +1,11 @@
 
 
-export const $ = (selectorName: string):HTMLElement  => {
-    return document.querySelector(selectorName) as HTMLElement
+export const $ = (selectorName: string, parentName?: HTMLElement):HTMLElement | null  => {
+    if (parentName) return parentName.querySelector(selectorName) 
+    return document.querySelector(selectorName) 
 }
 
-export const $$ = (selectorName: string):NodeListOf<Element> | null => document.querySelectorAll(selectorName) 
+export const $$ = (selectorName: string, parentName?: HTMLElement):NodeListOf<Element> | null => {
+    if(parentName) return parentName.querySelectorAll(selectorName)
+    return document.querySelectorAll(selectorName) 
+}
