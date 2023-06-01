@@ -28,7 +28,7 @@ class Movie {
               alt="${title}"
             />
             <p class="item-title">${title}</p>
-            <p class="item-score"><img class="img-star" src="${Star_filled}" alt="별점" /> ${vote_average}</p>
+            <p class="item-score"><img class="img-star" src="${Star_filled}" alt="별점" /> ${vote_average.toFixed(1)}</p>
           </div>
         </a>
       </li>`
