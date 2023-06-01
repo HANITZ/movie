@@ -1,8 +1,7 @@
-import { getPopularMovies } from "../api/getMovie";
+import { getPopularMovies, getSearchMovies } from "../api/getMovie";
 import { Star_filled } from "../images/types";
 import { IMovie, IMovieListRes } from "../types/IMovieListRes";
 import { $ } from "../utils/selectQueries";
-import { Component, IComponent } from "./Component";
 import Movie from "./Movie";
 
 interface IProps{
@@ -61,9 +60,9 @@ class MovieList {
         case 'popular':
           return getPopularMovies(this.#page)
         case 'search':
-          return
-        default:
-          return
+          if(!this.#searchInput) return
+          return getSearchMovies(this.#page, this.#searchInput)
+
       }
     }
 

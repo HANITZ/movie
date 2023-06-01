@@ -1,15 +1,10 @@
 
 
-export interface IComponent {
-    target: HTMLElement
-    state: Object
-}
 export class Component {
     target: HTMLElement
-    state: any
-    constructor({target , state}:IComponent){
+    constructor(target:HTMLElement){
         this.target = target
-        this.state = state
+
         
         this.render()
         // const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this))

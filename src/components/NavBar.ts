@@ -1,16 +1,24 @@
 import { Logo } from "../images/types";
-import { Component, IComponent } from "./Component";
+import { Component } from "./Component";
+
+
+
+interface IState {
+  renderMovieList: (type: string, searchInput?: string) => void
+}
 
 class NavBar extends Component {
-  constructor({ target, state }: IComponent) {
-    super({ target, state });
+  #state
+  constructor(target:HTMLElement, state:IState) {
+    super(target);
+    this.#state=state
 
     this.setEvent();
   }
 
   setEvent() {
     const searchBox = this.target.querySelector(".search-box") 
-
+    const {renderMovieList} = this.#state
     if (!searchBox) return; 
 
     searchBox.addEventListener("submit", (event) => {
@@ -18,7 +26,8 @@ class NavBar extends Component {
       if(!(event.target instanceof HTMLElement)) return
       const input = event.target.querySelector('#search-input') as HTMLInputElement
       if(!input) return;
-      console.log(input.value)
+      const textValue = input.value.trim()
+      renderMovieList('search', textValue)
     });
   }
 
