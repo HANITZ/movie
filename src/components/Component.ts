@@ -6,10 +6,10 @@ export interface IComponent {
 }
 export class Component {
     target: HTMLElement
-    #state: Object
+    state: any
     constructor({target , state}:IComponent){
         this.target = target
-        this.#state = state
+        this.state = state
         
         this.render()
         // const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(this))
@@ -24,7 +24,7 @@ export class Component {
     //     })
     // }
 
-    render():void{
+    render(movies?:any):void{
         this.target.innerHTML = this.template()
     }
 
