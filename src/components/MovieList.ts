@@ -25,28 +25,31 @@ class MovieList {
       }
 
       this.render()
+      this.setEvent()
     }
     
     async render(){
       this.#target.innerHTML = this.template()
-      const fetchedMovies = await this.fetchMovieList()
+      
 
-      if(!fetchedMovies)return
+      
 
       this.renderTitle()
-      this.renderMovieList(fetchedMovies)
+      this.renderMovieList()
+      
     }
 
-    renderMovieList(movieRes:IMovieListRes){
+    async renderMovieList(){
       const ul = $(".item-list", this.#target)
+      const fetchedMovies = await this.fetchMovieList()
+      if(!fetchedMovies)return
       if(!ul) return
 
-      const movies = movieRes.results
+      const movies = fetchedMovies.results
       movies.forEach((movie:IMovie) => {
         new Movie(ul ,movie)
       })
-      
-      
+      this.#page+=1
     }
 
     renderTitle(){
@@ -66,7 +69,13 @@ class MovieList {
       }
     }
 
-
+    setEvent(){
+      const button = $('button', this.#target)
+      if(!button) return
+      button.addEventListener('click', ()=>{
+        this.renderMovieList()
+      })
+    }
 
     template() {
         return `
