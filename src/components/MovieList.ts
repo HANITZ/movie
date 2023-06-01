@@ -31,25 +31,31 @@ class MovieList {
     async render(){
       this.#target.innerHTML = this.template()
       
-
-      
-
       this.renderTitle()
       this.renderMovieList()
-      
     }
 
     async renderMovieList(){
+  
       const ul = $(".item-list", this.#target)
       const fetchedMovies = await this.fetchMovieList()
       if(!fetchedMovies)return
       if(!ul) return
 
-      const movies = fetchedMovies.results
-      movies.forEach((movie:IMovie) => {
+      const {results, total_pages:totalPage} = fetchedMovies
+
+      if (!this.checkLastPage(totalPage)) {
+        alert('더 이상 페이지가 존재하지 않습니다.')
+        return
+      }
+      results.forEach((movie:IMovie) => {
         new Movie(ul ,movie)
       })
       this.#page+=1
+    }
+
+    checkLastPage(totalPage:number):boolean{
+      return this.#page < totalPage
     }
 
     renderTitle(){
@@ -70,7 +76,7 @@ class MovieList {
     }
 
     setEvent(){
-      const button = $('button', this.#target)
+      const button = $('.more', this.#target)
       if(!button) return
       button.addEventListener('click', ()=>{
         this.renderMovieList()
@@ -83,7 +89,7 @@ class MovieList {
           <h2 class="item-title"></h2>
           <ul class="item-list">
           </ul>
-          <button class="btn primary full-width">더 보기</button>
+          <button class="more btn primary full-width">더 보기</button>
         </section>
         `
     }
