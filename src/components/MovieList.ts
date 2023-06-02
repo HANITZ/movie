@@ -24,7 +24,7 @@ class MovieList {
       this.#type = type
       this.#searchInput = searchInput || ''
       this.#skeletonMovieList = null
-      
+
       this.render()
       this.setEvent()
     }
@@ -89,13 +89,18 @@ class MovieList {
     }
 
     fetchMovieList(){
-      switch (this.#type) {
-        case 'popular':
-          return getPopularMovies(this.#page)
-        case 'search':
-          return getSearchMovies(this.#page, this.#searchInput)
-
+      try {
+        switch (this.#type) {
+          case 'popular':
+            return getPopularMovies(this.#page)
+          case 'search':
+            return getSearchMovies(this.#page, this.#searchInput)
+  
+        }
+      }catch(error){
+        this.renderTitle('영화 목록 요청을 실패했습니다.')
       }
+      
     }
 
     setEvent(){
