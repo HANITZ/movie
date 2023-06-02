@@ -3,6 +3,7 @@ import { Star_filled } from "../images/types";
 import { IMovie, IMovieListRes } from "../types/IMovieListRes";
 import { $ } from "../utils/selectQueries";
 import Movie from "./Movie";
+import SkeletonMovieList from "./SkeletonMovieList";
 
 interface IProps{
   type: string;
@@ -15,14 +16,15 @@ class MovieList {
   #page: number
   #type: string
   #searchInput: string
+  #skeletonMovieList: SkeletonMovieList | null
 
     constructor(target: HTMLElement, {type, searchInput}:IProps){
       this.#target = target
       this.#page = 1
       this.#type = type
-
       this.#searchInput = searchInput || ''
-
+      this.#skeletonMovieList = null
+      
       this.render()
       this.setEvent()
     }
@@ -30,7 +32,9 @@ class MovieList {
     async render(){
       this.#target.innerHTML = this.template()
       
-      
+      const ul = $('.item-list', this.#target)
+      if (!ul) return
+      this.#skeletonMovieList = new SkeletonMovieList(ul)
 
       this.renderTitle()
       this.renderMovieList()
@@ -40,10 +44,15 @@ class MovieList {
       
       const ul = $(".item-list", this.#target)
       const fetchedMovies = await this.fetchMovieList()
-      console.log(fetchedMovies)
+
       if(!fetchedMovies)return
       if(!ul) return
-      console.log(fetchedMovies.results.length)
+      if (this.checkSkeleton()){
+        this.#skeletonMovieList?.removeSkeleton()
+        this.#skeletonMovieList = null
+      }
+
+
       if(!this.checkMovies(fetchedMovies)){
         const searchInput = this.#searchInput
         this.renderTitle(`"${searchInput}"에 대한 검색결과가 없습니다`)
@@ -61,6 +70,11 @@ class MovieList {
       })
       this.#page+=1
     }
+
+    checkSkeleton(){
+      return this.#skeletonMovieList instanceof SkeletonMovieList
+    }
+
     checkMovies(movieList:IMovieListRes){
       return !!movieList.results.length
     }
