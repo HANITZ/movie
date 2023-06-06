@@ -26,14 +26,15 @@ button {
 }
 .item-view,
 .item-test {
-  width: 100%;
+  /* width: 100%; */
 }
 
 .item-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1200px;
+  /* width: 1200px; */
+  width: 90vw;
   margin: 0 auto;
 }
 
@@ -47,9 +48,12 @@ button {
 
 .item-list {
   display: grid;
+  width: 100%;
   margin: 48px 0;
-  grid-template-columns: repeat(4, 180px);
-  grid-column-gap: 160px;
+  /* grid-template-columns: repeat(4, 180px);
+  grid-column-gap: 160px; */
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  grid-column-gap: 50px;
   grid-row-gap: 48px;
 }
 
@@ -61,7 +65,7 @@ button {
 .item-thumbnail {
   border-radius: 8px;
   width: 180px;
-  height: 270px;
+  /* height: 270px; */
   background-size: contain;
 }
 
@@ -79,7 +83,17 @@ button {
 .item-score::after {
   margin-left: 8px;
 }
+@media screen and (max-width: 420px) {
+  .item-thumbnail {
+    width: 90vw;
+  }
 
+  .item-title {
+    margin-top: 16px;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+}
 .item-title.skeleton::after,
 .item-score.skeleton::after {
   font-size: 0;

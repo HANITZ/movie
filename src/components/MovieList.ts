@@ -27,6 +27,7 @@ class MovieList {
 
       this.render()
       this.setEvent()
+      this.setIntersectionObserver()
     }
     
     async render(){
@@ -69,8 +70,30 @@ class MovieList {
         new Movie(ul ,movie)
       })
       this.#page+=1
+
+      this.setIntersectionObserver()
     }
 
+    setIntersectionObserver(){
+      const option = {
+        threshold: 0.5
+      }
+      const handleIntersection:IntersectionObserverCallback = (entries) => {
+        entries.forEach((entry) => {
+          if(entry.isIntersecting){
+            this.renderMovieList()
+          }
+        })
+      }
+      const intersectionObserver = new IntersectionObserver(handleIntersection,option)
+      const ul = $('.item-list', this.#target)
+      if(!ul) return
+
+      const lastLi = ul.lastElementChild;
+      if(!lastLi) return
+
+      intersectionObserver.observe(lastLi)
+    }
     checkSkeleton(){
       return this.#skeletonMovieList instanceof SkeletonMovieList
     }
@@ -87,7 +110,7 @@ class MovieList {
       if(!title) return
       title.innerText = text || (this.#type === 'popular' ? '지금 인기 있는 영화' : `"${this.#searchInput}" 검색 결과`)
     }
-
+    
     fetchMovieList(){
       try {
         switch (this.#type) {
